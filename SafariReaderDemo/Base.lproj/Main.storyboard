@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AM0-Gl-qJ0">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SafariReaderDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Oo-T9-vb3">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QN1-U9-H7h">
+                                <rect key="frame" x="0.0" y="769" width="393" height="49"/>
+                                <items>
+                                    <barButtonItem image="chevron.backward" catalog="system" id="zGD-vL-s2q">
+                                        <connections>
+                                            <action selector="goBack:" destination="BYZ-38-t0r" id="ZRB-dd-wVa"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="co0-zJ-NLF"/>
+                                    <barButtonItem image="chevron.forward" catalog="system" id="toM-Od-NLe">
+                                        <connections>
+                                            <action selector="goForward:" destination="BYZ-38-t0r" id="7yn-aY-e6M"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="6ng-Hu-sMM"/>
+                                    <barButtonItem image="arrow.counterclockwise" catalog="system" id="lcB-iD-Lri">
+                                        <connections>
+                                            <action selector="refresh:" destination="BYZ-38-t0r" id="22s-PT-EJk"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Sh1-rh-yiB"/>
+                                    <barButtonItem image="doc.plaintext" catalog="system" id="MUj-xi-Lbq">
+                                        <connections>
+                                            <action selector="reader:" destination="BYZ-38-t0r" id="h9H-ub-iP4"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="1bg-YS-wGJ"/>
+                                    <barButtonItem image="gearshape" catalog="system" id="Vt0-b2-SvB">
+                                        <connections>
+                                            <action selector="setting:" destination="BYZ-38-t0r" id="m1G-Cg-F35"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="1Oo-T9-vb3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0zc-wi-vYu"/>
+                            <constraint firstItem="QN1-U9-H7h" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="AaE-gj-Jnm"/>
+                            <constraint firstItem="QN1-U9-H7h" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GgL-Az-Vdq"/>
+                            <constraint firstItem="1Oo-T9-vb3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="HEz-Z6-6de"/>
+                            <constraint firstItem="QN1-U9-H7h" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="P5n-QY-aA9"/>
+                            <constraint firstItem="QN1-U9-H7h" firstAttribute="top" secondItem="1Oo-T9-vb3" secondAttribute="bottom" id="U2f-nZ-6bm"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1Oo-T9-vb3" secondAttribute="trailing" id="ldH-Ed-bV2"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="gZl-j7-h8y">
+                        <nil key="title"/>
+                        <connections>
+                            <outlet property="titleView" destination="Gnc-bD-57l" id="oDT-4L-NFc"/>
+                        </connections>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="locationBar" destination="Gnc-bD-57l" id="qML-1B-UEI"/>
+                        <outlet property="readerButton" destination="MUj-xi-Lbq" id="RYf-es-5qc"/>
+                        <outlet property="webViewContainer" destination="1Oo-T9-vb3" id="JKB-Mr-YsG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://juejin.cn/post/7227258137765953597?searchId=20230825210632235FE757A9137ABAC1C5" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="Gnc-bD-57l">
+                    <rect key="frame" x="0.0" y="0.0" width="479" height="34"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="go"/>
+                    <connections>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="S5P-s9-z7A"/>
+                    </connections>
+                </textField>
+            </objects>
+            <point key="canvasLocation" x="788.54961832061065" y="45.774647887323944"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7TY-MK-na1">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AM0-Gl-qJ0" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="v65-ji-SVA">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <navigationBarAppearance key="standardAppearance" backgroundEffect="regular"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="OO4-3K-Qsj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Oo-AX-QNE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-138.1679389312977" y="45.774647887323944"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="arrow.counterclockwise" catalog="system" width="113" height="128"/>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
+        <image name="chevron.forward" catalog="system" width="97" height="128"/>
+        <image name="doc.plaintext" catalog="system" width="115" height="128"/>
+        <image name="gearshape" catalog="system" width="128" height="123"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

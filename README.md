@@ -1,2 +1,4 @@
 # SafariReaderDemo
-a safari reader mode
+A safari reader mode demo
+
+
