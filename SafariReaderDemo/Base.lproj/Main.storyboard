@@ -80,7 +80,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://juejin.cn/post/7227258137765953597?searchId=20230825210632235FE757A9137ABAC1C5" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="Gnc-bD-57l">
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://juejin.cn/post/7227258137765953597?searchId=20230825210632235FE757A9137ABAC1C5" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" id="Gnc-bD-57l">
                     <rect key="frame" x="0.0" y="0.0" width="479" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>

@@ -86,7 +86,7 @@ class ReaderConfiguration {
     }
 
     convenience init() {
-        self.init(fontSizeIndex: 6, theme: .white, fontFamilyNameForLanguageTag: [:])
+        self.init(fontSizeIndex: 3, theme: .white, fontFamilyNameForLanguageTag: [:])
     }
 
     init(fontSizeIndex: Int, theme: Theme, fontFamilyNameForLanguageTag: [String: String]) {
