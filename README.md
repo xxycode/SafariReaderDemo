@@ -1,5 +1,6 @@
 # SafariReaderDemo
 A safari reader mode demo
+Javascript Files were dumped from Safari.
 
 Supports:
 font(fonts for languages)
