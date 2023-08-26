@@ -16,7 +16,6 @@
 		03869E432A984D870003CE21 /* ReaderSharedUI.js in Resources */ = {isa = PBXBuildFile; fileRef = 03869E402A984D870003CE21 /* ReaderSharedUI.js */; };
 		03869E442A984D870003CE21 /* ReaderArticleFinder.js in Resources */ = {isa = PBXBuildFile; fileRef = 03869E412A984D870003CE21 /* ReaderArticleFinder.js */; };
 		03869E452A984D870003CE21 /* Reader.html in Resources */ = {isa = PBXBuildFile; fileRef = 03869E422A984D870003CE21 /* Reader.html */; };
-		03E1DC1C2A990ADC00C1A440 /* songti.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03E1DC1B2A990ADC00C1A440 /* songti.ttf */; };
 		03E1DC1E2A9931F600C1A440 /* ReaderFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1DC1D2A9931F600C1A440 /* ReaderFontManager.swift */; };
 		03E1DC202A998FEC00C1A440 /* ReaderFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1DC1F2A998FEC00C1A440 /* ReaderFont.swift */; };
 		03E1DC222A99AD0900C1A440 /* ReaderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1DC212A99AD0900C1A440 /* ReaderConfiguration.swift */; };
@@ -35,7 +34,6 @@
 		03869E402A984D870003CE21 /* ReaderSharedUI.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ReaderSharedUI.js; sourceTree = "<group>"; };
 		03869E412A984D870003CE21 /* ReaderArticleFinder.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ReaderArticleFinder.js; sourceTree = "<group>"; };
 		03869E422A984D870003CE21 /* Reader.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Reader.html; sourceTree = "<group>"; };
-		03E1DC1B2A990ADC00C1A440 /* songti.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = songti.ttf; sourceTree = "<group>"; };
 		03E1DC1D2A9931F600C1A440 /* ReaderFontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFontManager.swift; sourceTree = "<group>"; };
 		03E1DC1F2A998FEC00C1A440 /* ReaderFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFont.swift; sourceTree = "<group>"; };
 		03E1DC212A99AD0900C1A440 /* ReaderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderConfiguration.swift; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 				03E1DC232A9A0D5A00C1A440 /* URLExt.swift */,
 				03869E3F2A984D870003CE21 /* SafariReader */,
 				03869E312A9845AB0003CE21 /* Main.storyboard */,
-				03E1DC1B2A990ADC00C1A440 /* songti.ttf */,
 				03869E342A9845AD0003CE21 /* Assets.xcassets */,
 				03869E362A9845AD0003CE21 /* LaunchScreen.storyboard */,
 				03869E392A9845AD0003CE21 /* Info.plist */,
@@ -157,7 +154,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03E1DC1C2A990ADC00C1A440 /* songti.ttf in Resources */,
 				03869E432A984D870003CE21 /* ReaderSharedUI.js in Resources */,
 				03869E452A984D870003CE21 /* Reader.html in Resources */,
 				03869E382A9845AD0003CE21 /* LaunchScreen.storyboard in Resources */,
