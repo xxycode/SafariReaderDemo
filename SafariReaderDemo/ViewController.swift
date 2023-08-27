@@ -154,7 +154,6 @@ class ViewController: UIViewController {
     private lazy var webView: WKWebView = {
         let config = WKWebViewConfiguration()
         config.userContentController.addUserScript(WKUserScript(source: articleFinderJS, injectionTime: .atDocumentEnd, forMainFrameOnly: true, in: .defaultClient))
-        config.setURLSchemeHandler(self, forURLScheme: "reader")
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.allowsBackForwardNavigationGestures = true
         webView.isInspectable = true
@@ -228,12 +227,8 @@ class ViewController: UIViewController {
                   let finderResult = FinderResult(dictionary: finderResultDictionary) else {
                 return
             }
-            let urlString = url.absoluteString
-            ReaderManager.shared.set(article: finderResult, for: urlString)
-            guard let articleURL = URL(string: "reader://home/index?url=\(urlString)") else {
-                return
-            }
-            self.webView.load(URLRequest(url: articleURL))
+            let htmlString = ReaderManager.shared.getHtmlString(for: finderResult, url: url.absoluteString)
+            self.webView.loadHTMLString(htmlString, baseURL: url)
         }
     }
     @IBAction func setting(_ sender: Any) {
@@ -274,59 +269,3 @@ extension ViewController: UITextFieldDelegate {
         return true
     }
 }
-
-extension ViewController: WKURLSchemeHandler {
-
-    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
-        guard let url = urlSchemeTask.request.url,
-              let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            urlSchemeTask.didFailWithError(NSError(domain: "failed", code: -1))
-            return
-        }
-        let path = components.path
-        print(path)
-        if path == "/index" {
-            guard let originalURL = components.valueForQuery("url"),
-                  let article = ReaderManager.shared.getArticle(with: originalURL) else {
-                urlSchemeTask.didFailWithError(NSError(domain: "failed", code: -1))
-                return
-            }
-            let readerHtml = ReaderManager.shared.getHtmlString(for: article, url: originalURL)
-            let data = readerHtml.data(using: .utf8)!
-            let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: -1, textEncodingName: "utf-8")
-            urlSchemeTask.didReceive(response)
-            urlSchemeTask.didReceive(data)
-            urlSchemeTask.didFinish()
-        } else if path.hasPrefix("/fonts/") {
-            let fileName = url.lastPathComponent
-            ReaderFontManager.shared.font(with: fileName) { result in
-                switch result {
-                case .success(let data):
-                    let response = URLResponse(url: url, mimeType: "application/octet-stream", expectedContentLength: -1, textEncodingName: nil)
-                    urlSchemeTask.didReceive(response)
-                    urlSchemeTask.didReceive(data)
-                    urlSchemeTask.didFinish()
-                case .failure(let failure):
-                    guard let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: "HTTP/1.1", headerFields: nil) else {
-                        urlSchemeTask.didFailWithError(failure)
-                        return
-                    }
-                    urlSchemeTask.didReceive(response)
-                    urlSchemeTask.didFinish()
-                }
-            }
-        } else {
-            guard let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: "HTTP/1.1", headerFields: nil) else {
-                urlSchemeTask.didFailWithError(NSError(domain: "scheme handler error", code: -1))
-                return
-            }
-            urlSchemeTask.didReceive(response)
-            urlSchemeTask.didFinish()
-        }
-    }
-
-    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-
-    }
-}
-
