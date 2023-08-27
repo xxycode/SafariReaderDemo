@@ -9,59 +9,59 @@
     <style>
         @font-face {
           font-family: "Songti SC";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Songti-SC.ttf");
+          src: url("/fonts/Songti-SC.ttf");
         }
         @font-face {
           font-family: "Kaiti SC";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Kaiti-SC.ttf");
+          src: url("/fonts/Kaiti-SC.ttf");
         }
 
         @font-face {
           font-family: "Yuanti SC";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Yuanti-SC.ttf");
+          src: url("/fonts/Yuanti-SC.ttf");
         }
         @font-face {
           font-family: "Songti TC";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Songti-TC.ttf");
+          src: url("/fonts/Songti-TC.ttf");
         }
         @font-face {
           font-family: "Kaiti TC";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Kaiti-TC.ttf");
+          src: url("/fonts/Kaiti-TC.ttf");
         }
         @font-face {
           font-family: "Yuanti TC";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Yuanti-TC.ttf");
+          src: url("/fonts/Yuanti-TC.ttf");
         }
 
         @font-face {
           font-family: "Hiragino Kaku Gothic ProN";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Hiragino-Kaku-Gothic-ProN.otf");
+          src: url("/fonts/Hiragino-Kaku-Gothic-ProN.otf");
         }
         @font-face {
           font-family: "Hiragino Maru Gothic ProN";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Hiragino-Maru-Gothic-ProN.otf");
+          src: url("/fonts/Hiragino-Maru-Gothic-ProN.otf");
         }
         @font-face {
           font-family: "Hiragino Mincho ProN";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Hiragino-Mincho-ProN.otf");
+          src: url("/fonts/Hiragino-Mincho-ProN.otf");
         }
         @font-face {
           font-family: "Hiragino Sans W3";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Hiragino-Sans-GB-W3.otf");
+          src: url("/fonts/Hiragino-Sans-GB-W3.otf");
         }
 
         @font-face {
           font-family: "Myriad Arabic";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/Myriad-Arabic.ttf");
+          src: url("/fonts/Myriad-Arabic.ttf");
         }
 
         @font-face {
           font-family: "Nanum Gothic";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/NanumGothic.ttf");
+          src: url("/fonts/NanumGothic.ttf");
         }
         @font-face {
           font-family: "Nanum Myeongjo";
-          src: url("https://cdn.jsdelivr.net/gh/xxycode/ReaderFonts@main/NanumMyeongjo.ttf");
+          src: url("/fonts/NanumMyeongjo.ttf");
         }
     </style>
     <style id="article-content">
@@ -1137,6 +1137,7 @@
             doc.title = decodeURIComponent(`{{READER_TITLE}}`);
             return doc.body.firstChild;
         };
+
         const createDocument = (htmlContent) => {
             if (htmlContent.length == 0) {
                 return null;
@@ -1145,6 +1146,7 @@
             var doc = parser.parseFromString(htmlContent, "text/html");
             return doc;
         };
+
         var ReaderArticleFinderJS = {};
         ReaderArticleFinderJS.articleTitle = () => {
             return decodeURIComponent(`{{READER_TITLE}}`);
@@ -1241,6 +1243,28 @@
             var config = JSON.parse(decodeURIComponent(configString));
             setConfiguration(config);
         }
+
+        const processImages = (doc) => {
+            var imgTags = doc.getElementsByTagName('img');
+            var searchParams = new URLSearchParams(location.search);
+            var originalUrl = new URL(searchParams.get("url"));
+            for (var i = 0; i < imgTags.length; i++) {
+                var imgTag = imgTags[i];
+                var imgSrc = imgTag.getAttribute('src');
+                if (!imgSrc.startsWith('http:') && !imgSrc.startsWith('https:') && !imgSrc.startsWith('data:') & !imgSrc.startsWith('file:')) {
+                    if (imgSrc.startsWith('/')) {
+                        imgTag.setAttribute("src", originalUrl.origin + imgSrc);
+                    } else {
+                        imgTag.setAttribute("src", originalUrl.href.substring(0, originalUrl.href.lastIndexOf('/')) + "/" + imgSrc);
+                    }
+                    console.log(imgSrc);
+                }
+            }
+        };
+
+        window.onload = () => {
+            processImages(document);
+        };
 
     </script>
 </body>

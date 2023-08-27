@@ -9,6 +9,8 @@ import Foundation
 
 class ReaderManager {
 
+    private let fontManager = ReaderFontManager()
+
     private lazy var sharedUIJS: String = {
         guard let url = Bundle.main.url(forResource: "ReaderSharedUI", withExtension: "js"),
               let js = try? String(contentsOf: url) else {
@@ -64,6 +66,10 @@ class ReaderManager {
         readerHtml = readerHtml.replacingOccurrences(of: "{{UI_JS}}", with: sharedUIJS)
         readerHtml = readerHtml.replacingOccurrences(of: "{{READER_CONFIG}}", with: readerConfiguration.jsJSON)
         return readerHtml
+    }
+
+    func font(with fileName: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        fontManager.font(with: fileName, completion: completion)
     }
     
 }

@@ -154,6 +154,7 @@ class ViewController: UIViewController {
     private lazy var webView: WKWebView = {
         let config = WKWebViewConfiguration()
         config.userContentController.addUserScript(WKUserScript(source: articleFinderJS, injectionTime: .atDocumentEnd, forMainFrameOnly: true, in: .defaultClient))
+        config.setURLSchemeHandler(self, forURLScheme: "reader")
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.allowsBackForwardNavigationGestures = true
         webView.isInspectable = true
@@ -162,13 +163,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // https://juejin.cn/post/7227258137765953597?searchId=20230825210632235FE757A9137ABAC1C5
-        // https://mp.weixin.qq.com/s/xdCNYTl64_kDrBzwFamGEw
-        // https://www.zdnet.com/home-and-office/work-life/how-to-enable-and-use-google-chromes-reading-mode/
-        // https://news.yahoo.co.jp/articles/82c9ea1eb7c723aad3d41cc283f7669e413ca702
-        // ar
-        // https://nabulsi.com/story/El-poder-del-intelecto-necesita-un-mundo-interno-y-otro-externo11576
-        locationBar.text = "https://juejin.cn/post/7227258137765953597?searchId=20230825210632235FE757A9137ABAC1C5"
+        let urls = [
+            "https://juejin.cn/post/7227258137765953597?searchId=20230825210632235FE757A9137ABAC1C5",
+            "https://mp.weixin.qq.com/s/xdCNYTl64_kDrBzwFamGEw",
+            "https://www.zdnet.com/home-and-office/work-life/how-to-enable-and-use-google-chromes-reading-mode/",
+            "https://news.yahoo.co.jp/articles/82c9ea1eb7c723aad3d41cc283f7669e413ca702",
+            "https://nabulsi.com/story/El-poder-del-intelecto-necesita-un-mundo-interno-y-otro-externo11576"
+        ]
+        locationBar.text = urls[0]
         ReaderManager.shared.readerConfiguration.setFont(.songtiSC, for: "zh-Hans")
         ReaderManager.shared.readerConfiguration.theme = .sepia
         ReaderManager.shared.readerConfiguration.fontSize = 5
@@ -222,13 +224,16 @@ class ViewController: UIViewController {
         extArticle();
 """
         webView.evaluateJavaScript(script, in: nil, in: .defaultClient) { result in
-            guard let url = self.webView.url,
+            guard let url = self.webView.url?.absoluteString,
                   let finderResultDictionary = (try? result.get()) as? [String: Any],
                   let finderResult = FinderResult(dictionary: finderResultDictionary) else {
                 return
             }
-            let htmlString = ReaderManager.shared.getHtmlString(for: finderResult, url: url.absoluteString)
-            self.webView.loadHTMLString(htmlString, baseURL: url)
+            ReaderManager.shared.set(article: finderResult, for: url)
+            guard let articleURL = URL(string: "reader://home/index?url=\(url)") else {
+                return
+            }
+            self.webView.load(URLRequest(url: articleURL))
         }
     }
     @IBAction func setting(_ sender: Any) {
@@ -269,3 +274,59 @@ extension ViewController: UITextFieldDelegate {
         return true
     }
 }
+
+extension ViewController: WKURLSchemeHandler {
+
+    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
+        guard let url = urlSchemeTask.request.url,
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            urlSchemeTask.didFailWithError(NSError(domain: "failed", code: -1))
+            return
+        }
+        let path = components.path
+        print(path)
+        if path == "/index" {
+            guard let originalURL = components.valueForQuery("url"),
+                  let article = ReaderManager.shared.getArticle(with: originalURL) else {
+                urlSchemeTask.didFailWithError(NSError(domain: "failed", code: -1))
+                return
+            }
+            let readerHtml = ReaderManager.shared.getHtmlString(for: article, url: originalURL)
+            let data = readerHtml.data(using: .utf8)!
+            let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: -1, textEncodingName: "utf-8")
+            urlSchemeTask.didReceive(response)
+            urlSchemeTask.didReceive(data)
+            urlSchemeTask.didFinish()
+        } else if path.hasPrefix("/fonts/") {
+            let fileName = url.lastPathComponent
+            ReaderManager.shared.font(with: fileName) { result in
+                switch result {
+                case .success(let data):
+                    let response = URLResponse(url: url, mimeType: "application/octet-stream", expectedContentLength: -1, textEncodingName: nil)
+                    urlSchemeTask.didReceive(response)
+                    urlSchemeTask.didReceive(data)
+                    urlSchemeTask.didFinish()
+                case .failure(let failure):
+                    guard let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: "HTTP/1.1", headerFields: nil) else {
+                        urlSchemeTask.didFailWithError(failure)
+                        return
+                    }
+                    urlSchemeTask.didReceive(response)
+                    urlSchemeTask.didFinish()
+                }
+            }
+        } else {
+            guard let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: "HTTP/1.1", headerFields: nil) else {
+                urlSchemeTask.didFailWithError(NSError(domain: "scheme handler error", code: -1))
+                return
+            }
+            urlSchemeTask.didReceive(response)
+            urlSchemeTask.didFinish()
+        }
+    }
+
+    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
+
+    }
+}
+

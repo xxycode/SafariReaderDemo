@@ -17,11 +17,9 @@ private struct Constants {
 
 class ReaderFontManager {
 
-    static let shared = ReaderFontManager()
-
     private let fileRootURL: URL
 
-    private init() {
+    init() {
         let appSupport = URL.appSupportURL
         let root = appSupport.appendingPathComponent(Constants.FontFolderName, isDirectory: true)
         if !FileManager.default.fileExists(atPath: root.path) {
@@ -55,7 +53,6 @@ class ReaderFontManager {
 
     func font(with fileName: String, completion: @escaping (Result<Data, Error>) -> Void) {
         let fileURL = fileRootURL.appendingPathComponent(fileName, isDirectory: false)
-        print(fileURL)
         if FileManager.default.fileExists(atPath: fileURL.path) {
             guard let data = try? Data(contentsOf: fileURL) else {
                 completion(.failure(NSError(domain: "reader.font", code: -1)))
