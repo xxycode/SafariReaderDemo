@@ -123,10 +123,6 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var readerButton: UIBarButtonItem!
 
-    private var articleCache: [String: FinderResult] = [:]
-
-    private var readerConfiguration = ReaderConfiguration()
-
     private var articleFinderJS: String {
         guard let url = Bundle.main.url(forResource: "ReaderArticleFinder", withExtension: "js"),
               let js = try? String(contentsOf: url) else {
@@ -237,10 +233,10 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func setting(_ sender: Any) {
-        readerConfiguration.setFont(.yuantiSC, for: "zh-Hans")
-        readerConfiguration.fontSize = 6
-        readerConfiguration.theme = .sepia
-        webView.evaluateJavaScript("updateConfig(\"\(readerConfiguration.jsJSON)\")")
+        ReaderManager.shared.setFont(.kaitiSC, for: "zh-Hans")
+        ReaderManager.shared.fontSize = 6
+        ReaderManager.shared.theme = .gray
+        webView.evaluateJavaScript("updateConfig(\"\(ReaderManager.shared.configurationJSJson)\")")
     }
 
     func loadRequest() {

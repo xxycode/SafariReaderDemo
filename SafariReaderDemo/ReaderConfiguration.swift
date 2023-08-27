@@ -22,6 +22,7 @@ extension ReaderConfiguration {
     }
 
     private struct Constants {
+
         static let DefaultFontFamilyNameForLanguage = [
             "lo": "Lao Sangam MN",
             "chr": "Plantagenet Cherokee",
@@ -48,6 +49,10 @@ extension ReaderConfiguration {
             "ta": "Tamil Sangam MN",
             "gu": "Kohinoor Gujarati"
         ]
+
+        static let FontRange = (min: 0, max: 6)
+
+        static let DefaultFontSize = 3
     }
 
 }
@@ -85,8 +90,18 @@ class ReaderConfiguration {
         ]
     }
 
+    let defaultTextSize = Constants.DefaultFontSize
+
+    var canMakeTextBigger: Bool {
+        fontSize >= Constants.FontRange.max
+    }
+
+    var canMakeTextSmaller: Bool {
+        fontSize <= Constants.FontRange.min
+    }
+
     convenience init() {
-        self.init(fontSizeIndex: 3, theme: .white, fontFamilyNameForLanguageTag: [:])
+        self.init(fontSizeIndex: Constants.DefaultFontSize, theme: .white, fontFamilyNameForLanguageTag: [:])
     }
 
     init(fontSizeIndex: Int, theme: Theme, fontFamilyNameForLanguageTag: [String: String]) {

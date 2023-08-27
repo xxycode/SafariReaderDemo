@@ -9,7 +9,31 @@ import Foundation
 
 class ReaderManager {
 
+    private let configuration = ReaderConfiguration()
+
     private let fontManager = ReaderFontManager()
+
+    var fontSize: Int {
+        get {
+            configuration.fontSize
+        }
+        set {
+            configuration.fontSize = newValue
+        }
+    }
+
+    var theme: ReaderConfiguration.Theme {
+        get {
+            configuration.theme
+        }
+        set {
+            configuration.theme = newValue
+        }
+    }
+
+    var configurationJSJson: String {
+        configuration.jsJSON
+    }
 
     private lazy var sharedUIJS: String = {
         guard let url = Bundle.main.url(forResource: "ReaderSharedUI", withExtension: "js"),
@@ -70,6 +94,10 @@ class ReaderManager {
 
     func font(with fileName: String, completion: @escaping (Result<Data, Error>) -> Void) {
         fontManager.font(with: fileName, completion: completion)
+    }
+
+    func setFont(_ font: ReaderFont?, for locale: String) {
+        configuration.setFont(font, for: locale)
     }
     
 }
