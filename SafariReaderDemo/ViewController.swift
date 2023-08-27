@@ -169,7 +169,7 @@ class ViewController: UIViewController {
         locationBar.text = urls[0]
         ReaderManager.shared.readerConfiguration.setFont(.songtiSC, for: "zh-Hans")
         ReaderManager.shared.readerConfiguration.theme = .sepia
-        ReaderManager.shared.readerConfiguration.fontSize = 5
+        ReaderManager.shared.readerConfiguration.fontSize = 3
         webView.frame = webViewContainer.bounds
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         webViewContainer.addSubview(webView)
