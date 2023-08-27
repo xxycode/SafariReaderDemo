@@ -20,6 +20,7 @@
 		03E1DC202A998FEC00C1A440 /* ReaderFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1DC1F2A998FEC00C1A440 /* ReaderFont.swift */; };
 		03E1DC222A99AD0900C1A440 /* ReaderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1DC212A99AD0900C1A440 /* ReaderConfiguration.swift */; };
 		03E1DC242A9A0D5A00C1A440 /* URLExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1DC232A9A0D5A00C1A440 /* URLExt.swift */; };
+		03E1DC262A9B144A00C1A440 /* ReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1DC252A9B144A00C1A440 /* ReaderManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		03E1DC1F2A998FEC00C1A440 /* ReaderFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFont.swift; sourceTree = "<group>"; };
 		03E1DC212A99AD0900C1A440 /* ReaderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderConfiguration.swift; sourceTree = "<group>"; };
 		03E1DC232A9A0D5A00C1A440 /* URLExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExt.swift; sourceTree = "<group>"; };
+		03E1DC252A9B144A00C1A440 /* ReaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				03869E2B2A9845AB0003CE21 /* AppDelegate.swift */,
 				03869E2D2A9845AB0003CE21 /* SceneDelegate.swift */,
 				03869E2F2A9845AB0003CE21 /* ViewController.swift */,
+				03E1DC252A9B144A00C1A440 /* ReaderManager.swift */,
 				03E1DC1D2A9931F600C1A440 /* ReaderFontManager.swift */,
 				03E1DC1F2A998FEC00C1A440 /* ReaderFont.swift */,
 				03E1DC212A99AD0900C1A440 /* ReaderConfiguration.swift */,
@@ -174,6 +177,7 @@
 				03869E302A9845AB0003CE21 /* ViewController.swift in Sources */,
 				03869E2C2A9845AB0003CE21 /* AppDelegate.swift in Sources */,
 				03E1DC222A99AD0900C1A440 /* ReaderConfiguration.swift in Sources */,
+				03E1DC262A9B144A00C1A440 /* ReaderManager.swift in Sources */,
 				03E1DC242A9A0D5A00C1A440 /* URLExt.swift in Sources */,
 				03869E2E2A9845AB0003CE21 /* SceneDelegate.swift in Sources */,
 				03E1DC1E2A9931F600C1A440 /* ReaderFontManager.swift in Sources */,

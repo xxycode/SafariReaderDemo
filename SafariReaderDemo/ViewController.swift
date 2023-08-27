@@ -170,9 +170,9 @@ class ViewController: UIViewController {
         // ar
         // https://nabulsi.com/story/El-poder-del-intelecto-necesita-un-mundo-interno-y-otro-externo11576
         locationBar.text = "https://juejin.cn/post/7227258137765953597?searchId=20230825210632235FE757A9137ABAC1C5"
-        readerConfiguration.setFont(.songtiSC, for: "zh-Hans")
-        readerConfiguration.theme = .sepia
-        readerConfiguration.fontSize = 5
+        ReaderManager.shared.readerConfiguration.setFont(.songtiSC, for: "zh-Hans")
+        ReaderManager.shared.readerConfiguration.theme = .sepia
+        ReaderManager.shared.readerConfiguration.fontSize = 5
         webView.frame = webViewContainer.bounds
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         webViewContainer.addSubview(webView)
@@ -223,13 +223,14 @@ class ViewController: UIViewController {
         extArticle();
 """
         webView.evaluateJavaScript(script, in: nil, in: .defaultClient) { result in
-            guard let url = self.webView.url?.absoluteString,
+            guard let url = self.webView.url,
                   let finderResultDictionary = (try? result.get()) as? [String: Any],
                   let finderResult = FinderResult(dictionary: finderResultDictionary) else {
                 return
             }
-            self.articleCache[url] = finderResult
-            guard let articleURL = URL(string: "reader://home/index?url=\(url)") else {
+            let urlString = url.absoluteString
+            ReaderManager.shared.set(article: finderResult, for: urlString)
+            guard let articleURL = URL(string: "reader://home/index?url=\(urlString)") else {
                 return
             }
             self.webView.load(URLRequest(url: articleURL))
@@ -286,39 +287,11 @@ extension ViewController: WKURLSchemeHandler {
         print(path)
         if path == "/index" {
             guard let originalURL = components.valueForQuery("url"),
-                  let article = self.articleCache[originalURL] else {
+                  let article = ReaderManager.shared.getArticle(with: originalURL) else {
                 urlSchemeTask.didFailWithError(NSError(domain: "failed", code: -1))
                 return
             }
-            let readerURL = Bundle.main.url(forResource: "Reader", withExtension: "html")!
-            var readerHtml = try! String(contentsOf: readerURL)
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_BASE_URL}}", with: originalURL)
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ROOT}}", with: "reader://home")
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_TITLE}}", with: article.title.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_TITLE_TEXT}}", with: article.title)
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_CONTENT}}", with: article.adoptableArticle)
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_CONTENTDOCUMENT}}", with: article.contentDocument.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_SUBHEAD}}", with: article.subhead.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_NODE}}", with: article.articleNode.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_ROUTE_NODE}}", with: article.routeToArticleNode.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ADOPTABLE_ARTICLE}}", with: article.adoptableArticle.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_DOC_URL_STRING}}", with: originalURL.urlEncoded())
-
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_CONTENTDOCUMENT}}", with: article.article.contentDocument.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_DEPTH}}", with: "\(article.article.depthInDocument)")
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_ELEMENT}}", with: article.article.element.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_LSM}}", with: "\(article.article.languageScoreMultiplier)")
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_RS}}", with: "\(article.article.rawScore)")
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_TAM}}", with: "\(article.article.tagNameAndAttributesScoreMultiplier)")
-
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_LOCALE}}", with: article.langCode)
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_TITLE_INFORMATION}}", with: article.articleTitleInformation.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ADOPTABLE_METADATA}}", with: article.adoptableMetadataBlock.urlEncoded())
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_ARTICLE_LTR}}", with: "\(article.articleIsLTR ? "true":"false")")
-
-            readerHtml = readerHtml.replacingOccurrences(of: "{{UI_JS}}", with: sharedUIJS)
-            readerHtml = readerHtml.replacingOccurrences(of: "{{READER_CONFIG}}", with: readerConfiguration.jsJSON)
-            
+            let readerHtml = ReaderManager.shared.getHtmlString(for: article, url: originalURL)
             let data = readerHtml.data(using: .utf8)!
             let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: -1, textEncodingName: "utf-8")
             urlSchemeTask.didReceive(response)

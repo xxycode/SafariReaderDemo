@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1">
     <base>
-    <title>{{READER_TITLE_TEXT}}</title>
+    <title></title>
     <style>
         @font-face {
           font-family: "Songti SC";
@@ -1133,6 +1133,8 @@
             }
             var parser = new DOMParser();
             var doc = parser.parseFromString(htmlContent, "text/html");
+            doc.baseURI = decodeURIComponent(`{{READER_DOC_URL_STRING}}`);
+            doc.title = decodeURIComponent(`{{READER_TITLE}}`);
             return doc.body.firstChild;
         };
         const createDocument = (htmlContent) => {
@@ -1256,6 +1258,7 @@
                 }
             }
         }
+        
     </script>
 </body>
 </html>
